@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
+import { getLocaleTimeFormat } from '@angular/common';
 
 export class player {
   _id:String;
@@ -59,6 +60,8 @@ export class BoardComponent implements OnInit {
   yellow:any={};
 
   pixel:any;
+  diceNumber = 1;
+
   constructor(
     public game:GameService
   ){ 
@@ -79,21 +82,6 @@ export class BoardComponent implements OnInit {
         }
       });
     });
-
-
-
-// setTimeout(()=>{
-  // this.blue.army.forEach(item=>{
-  //   item.el = document.createElement('img');
-  //   var attr = document.createAttribute("src");
-  //   attr.value = item.icon;  
-  //   item.el.setAttributeNode(attr);
-  //   item.el.style['position']='absolute';
-  //   item.el.className = 'goti';
-  //   document.getElementById('ludo_main').appendChild(item.el);
-  //   this.jupToPositionID(item.el,item.p);
-  // });
-// },5000);
 
   }
 
@@ -165,4 +153,26 @@ export class BoardComponent implements OnInit {
     document.getElementById('EndSteps').style.width = pixel*3+"px";
     document.getElementById('EndSteps').style.height = pixel*3+"px";
   }
+
+
+  move(goti){
+    console.log(goti);
+    goti.step += this.diceNumber;
+    if(goti.color == 'blue'){
+      var position = goti.step;
+    }
+    if(goti.color == 'red'){
+      var position = goti.step+13;
+    }
+    if(goti.color == 'green'){
+      var position = goti.step+26;
+    }
+    if(goti.color == 'yellow'){
+      var position = goti.step+39;
+    }
+    var pixelID = 't'+position;
+    goti.pixel = pixelID;
+    this.jumpToPixel(goti,pixelID);
+  }
+
 }

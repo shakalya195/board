@@ -80,6 +80,7 @@ b {
     width:25px;
     height:25px;
     transition: all 0.5s;
+    z-index: 1;
 }
 
 .ludo_d_top, .ludo_d_bottom {

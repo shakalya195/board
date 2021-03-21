@@ -1,20 +1,20 @@
 <div id="ludo_main">
     <div class="ludo_screen_conent">
-        <div *ngIf="blue?.army">
-            <img (click)="move()" *ngFor="let goti of blue.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" />
+        <div *ngIf="blue?.army && pixel">
+            <img (click)="move(goti)" *ngFor="let goti of blue.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
         </div>
         <div *ngIf="red?.army">
-            <img (click)="move()" *ngFor="let goti of red.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" />
+            <img (click)="move(goti)" *ngFor="let goti of red.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
         </div>
         <div *ngIf="green?.army">
-            <img (click)="move()" *ngFor="let goti of green.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" />
+            <img (click)="move(goti)" *ngFor="let goti of green.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
         </div>
         <div *ngIf="yellow?.army">
-            <img (click)="move()" *ngFor="let goti of yellow.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" />
+            <img (click)="move(goti)" *ngFor="let goti of yellow.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
         </div>
 
 
@@ -34,19 +34,19 @@
                     <div class="column" id="t25"></div>
                     <div class="column" id="t26"></div>
                     <div class="column" id="t23"></div>
-                    <div class="column safe" id="50"></div>
+                    <div class="column safe" id="green52"></div>
                     <div class="column safe" id="t27"></div>
                     <div class="column" id="t22"></div>
-                    <div class="column safe" id="47"></div>
+                    <div class="column safe" id="green53"></div>
                     <div class="column" id="t28"></div>
                     <div class="column" id="t21"></div>
-                    <div class="column safe" id="44"></div>
+                    <div class="column safe" id="green54"></div>
                     <div class="column" id="t29"></div>
                     <div class="column" id="t20"></div>
-                    <div class="column safe" id="41"></div>
+                    <div class="column safe" id="green55"></div>
                     <div class="column" id="t30"></div>
                     <div class="column" id="t19"></div>
-                    <div class="column safe" id="38"></div>
+                    <div class="column safe" id="green56"></div>
                     <div class="column" id="t31"></div>
                 </div>
             </div>
@@ -75,11 +75,11 @@
                     <div class="column" id="t18"></div>
 
                     <div class="column" id="t12"></div>
-                    <div class="column safe" id="c29"></div>
-                    <div class="column safe" id="c28"></div>
-                    <div class="column safe" id="c27"></div>
-                    <div class="column safe" id="c26"></div>
-                    <div class="column safe" id="c25"></div>
+                    <div class="column safe" id="red52"></div>
+                    <div class="column safe" id="red53"></div>
+                    <div class="column safe" id="red54"></div>
+                    <div class="column safe" id="red55"></div>
+                    <div class="column safe" id="red56"></div>
 
                     <div class="column" id="t11"></div>
                     <div class="column" id="t10"></div>
@@ -99,11 +99,11 @@
                     <div class="column" id="t35"></div>
                     <div class="column" id="t36"></div>
                     <div class="column" id="t37"></div>
-                    <div class="column safe" id="61"></div>
-                    <div class="column safe" id="62"></div>
-                    <div class="column safe" id="63"></div>
-                    <div class="column safe" id="64"></div>
-                    <div class="column safe" id="65"></div>
+                    <div class="column safe" id="yellow56"></div>
+                    <div class="column safe" id="yellow55"></div>
+                    <div class="column safe" id="yellow54"></div>
+                    <div class="column safe" id="yellow53"></div>
+                    <div class="column safe" id="yellow52"></div>
                     <div class="column" id="t38"></div>
                     <div class="column" id="t44"></div>
                     <div class="column" id="t43"></div>
@@ -129,19 +129,19 @@
             <div class="ludo_d_bottom_box players_path ludotops">
                 <div class="ludo_d_top_box_clmn_m column_main">
                     <div class="column" id="t5"></div>
-                    <div class="column safe" id="b56"></div>
+                    <div class="column safe" id="blue56"></div>
                     <div class="column" id="t45"></div>
                     <div class="column" id="t4"></div>
-                    <div class="column safe" id="b55"></div>
+                    <div class="column safe" id="blue55"></div>
                     <div class="column" id="t46"></div>
                     <div class="column" id="t3"></div>
-                    <div class="column safe" id="b54"></div>
+                    <div class="column safe" id="blue54"></div>
                     <div class="column" id="t47"></div>
                     <div class="column" id="t2"></div>
-                    <div class="column safe" id="b53"></div>
+                    <div class="column safe" id="blue53"></div>
                     <div class="column" id="t48"></div>
                     <div class="column safe " id="t1"></div>
-                    <div class="column safe" id="b52"></div>
+                    <div class="column safe" id="blue52"></div>
                     <div class="column" id="t49"></div>
                     <div class="column" id="t52"></div>
                     <div class="column" id="t51"></div>
