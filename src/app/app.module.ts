@@ -3,14 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BoardComponent } from './board/board.component';
+import { GotiComponent } from './goti/goti.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BoardComponent,
+    GotiComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

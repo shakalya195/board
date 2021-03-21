@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-﻿
+
 * {
     padding: 0px;
     margin: 0px;
@@ -72,8 +72,15 @@ b {
     justify-content: center;
     min-height: 100vh;
     display: flex;
+    position:relative;
 }
 
+.goti{
+    position: absolute;
+    width:25px;
+    height:25px;
+    transition: all 0.5s;
+}
 
 .ludo_d_top, .ludo_d_bottom {
     display: flex;
@@ -146,7 +153,7 @@ b {
     background: #fff;
     padding: 20px;
     height: 100%;
-    position: relative;
+    /* position: relative; */
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
@@ -171,21 +178,21 @@ b {
     transform: translate(-50%,-50%); */
 }
 .kati.bl{
-background: url(assets/images/bl_kati.png) no-repeat center center;
+background: url(assets/b.png) no-repeat center center;
 background-size: 53%;
 }
 .kati.yl{
-background: url(assets/images/yl_kati.png) no-repeat center center;
+background: url(assets/y.png) no-repeat center center;
 background-size: 53%;
 }
 
 .kati.gn{
-background: url(assets/images/gn_kati.png) no-repeat center center;
+background: url(assets/g.png) no-repeat center center;
 background-size: 53%;
 }
 
 .kati.rd{
-background: url(assets/images/rd_kati.png) no-repeat center center;
+background: url(assets/r.png) no-repeat center center;
 background-size: 53%;
 }
 
