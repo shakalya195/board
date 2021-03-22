@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
-import { getLocaleTimeFormat } from '@angular/common';
 
 export class player {
   _id:String;
@@ -8,6 +7,7 @@ export class player {
   color:String;
   startPosition:any;
   army:any[]=[];
+
 
   constructor(color='blue'){
     this.color = color;
@@ -60,7 +60,10 @@ export class BoardComponent implements OnInit {
   yellow:any={};
 
   pixel:any;
-  diceNumber = 1;
+  diceNumber:any = 0;
+
+  chanceOrder=['blue','red','green','yellow'];
+  chance='blue';
 
   constructor(
     public game:GameService
@@ -76,19 +79,25 @@ export class BoardComponent implements OnInit {
       this[item].name = 'Player';
       this[item].color = item;
       this[item].army = [{step:0,color:item},{step:0,color:item},{step:0,color:item},{step:0,color:item}]
-      this[item].army.forEach((item,i)=>{
-        if(item.step==0){
-          this.jumpToPixel(item,item.color+i);
+      if(localStorage.getItem(item)){
+        this[item] = JSON.parse(localStorage.getItem(item));
+      }
+      console.log(this[item]);
+      this[item].army.forEach((goti,i)=>{
+        if(goti.step==0){
+          this.jumpToPixel(goti,goti.color+i);
+        }else{
+          this.jumpToPixel(goti,goti.pixel);
         }
       });
     });
-
   }
 
   jumpToPixel(goti,pixelID){
     var el = document.getElementById(pixelID);
     goti.top = el.offsetTop+'px';
     goti.left = el.offsetLeft+'px';
+    localStorage.setItem(goti.color,JSON.stringify(this[goti.color]));
   }
 
 
@@ -152,27 +161,98 @@ export class BoardComponent implements OnInit {
 
     document.getElementById('EndSteps').style.width = pixel*3+"px";
     document.getElementById('EndSteps').style.height = pixel*3+"px";
+
+    document.getElementById('die').style.width = pixel*3+"px";
+    document.getElementById('die').style.height = pixel*3+"px";
+    document.getElementById('die').style.top = pixel*6+"px";
+    document.getElementById('die').style.left = pixel*6+"px";
   }
 
-
   move(goti){
-    console.log(goti);
-    goti.step += this.diceNumber;
+    if(!this.canMove(goti)){
+      console.log('NOT YOUR CHANCE');
+      return false;
+    }
+    let t = 0;
+    for(let i=0;i<this.diceNumber;i++){
+      setTimeout(()=>{
+        this.moveOne(goti,1);
+      },t);
+      t=t+500;
+    }
+    if(this.diceNumber < 6){
+      this.nextChance();
+    }
+    this.diceNumber = 0;
+  }
+
+  moveOne(goti,step=1){
+    // console.log(goti);
+    goti.step = parseInt(goti.step)+ step;
+    // console.log(goti);
+    // var field = goti.step < 52? 't':goti.color;
+
     if(goti.color == 'blue'){
-      var position = goti.step;
+      var position = goti.step < 52 ? 't'+goti.step : goti.color+goti.step;
     }
     if(goti.color == 'red'){
-      var position = goti.step+13;
+      var pointer = parseInt(goti.step+13);
+      if(pointer > 52){
+        pointer = pointer - 52;
+      }
+      var position = goti.step < 52 ? 't'+pointer : goti.color+goti.step;
     }
     if(goti.color == 'green'){
-      var position = goti.step+26;
+      var pointer = parseInt(goti.step+26);
+      if(pointer > 52){
+        pointer = pointer - 52;
+      }
+      var position = goti.step < 52 ? 't'+pointer : goti.color+goti.step;
     }
     if(goti.color == 'yellow'){
-      var position = goti.step+39;
+      var pointer = parseInt(goti.step+39);
+      if(pointer > 52){
+        pointer = pointer - 52;
+      }
+      var position = goti.step < 52 ? 't'+pointer : goti.color+goti.step;
     }
-    var pixelID = 't'+position;
+     // 't52' to blue53
+    var pixelID = position;
     goti.pixel = pixelID;
+
+    // console.log(goti,this.diceNumber,'pixelID',pixelID)
     this.jumpToPixel(goti,pixelID);
+  }
+
+  nextChance(){
+    let index = this.chanceOrder.findIndex(item=>item== this.chance);
+    let nextIndex = index+1;
+    if(nextIndex == 4){
+      nextIndex=0;
+    }
+    console.log(this.chance,index,nextIndex)
+    this.chance = this.chanceOrder[nextIndex];
+    // console.log(index);
+  }
+  
+  randomNumber(items=[1,2,3,4,5,6]){
+    return items[Math.floor(Math.random()*items.length)]
+  }
+
+  rollTheDice(){
+    let die = document.getElementById('die')
+    this.toggleClasses(die);
+    this.diceNumber = this.randomNumber();
+    die.dataset.roll = this.diceNumber;
+  }
+
+  toggleClasses(die){
+    die.classList.toggle("odd-roll");
+    die.classList.toggle("even-roll");
+  }
+
+  canMove(goti){
+    return this.diceNumber > 0 && goti.color == this.chance;
   }
 
 }

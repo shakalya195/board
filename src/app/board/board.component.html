@@ -1,20 +1,37 @@
 <div id="ludo_main">
     <div class="ludo_screen_conent">
+
         <div *ngIf="blue?.army && pixel">
-            <img (click)="move(goti)" *ngFor="let goti of blue.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
+            <span (click)="move(goti)" *ngFor="let goti of blue.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"
+                [ngClass]="{'chance': canMove(goti)}">
+                <img src="assets/{{goti.color}}.png"/>
+                <span class="pointer"></span>
+            </span>
         </div>
         <div *ngIf="red?.army">
-            <img (click)="move(goti)" *ngFor="let goti of red.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
+            <span (click)="move(goti)" *ngFor="let goti of red.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"
+                [ngClass]="{'chance': canMove(goti)}">
+                <img src="assets/{{goti.color}}.png"/>
+                <span class="pointer"></span>
+            </span>
         </div>
         <div *ngIf="green?.army">
-            <img (click)="move(goti)" *ngFor="let goti of green.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
+            <span (click)="move(goti)" *ngFor="let goti of green.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"
+                [ngClass]="{'chance': canMove(goti)}">
+                <img src="assets/{{goti.color}}.png"/>
+                <span class="pointer"></span>
+            </span>
         </div>
         <div *ngIf="yellow?.army">
-            <img (click)="move(goti)" *ngFor="let goti of yellow.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
-                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"/>
+            <span (click)="move(goti)" *ngFor="let goti of yellow.army;let index=index" src="assets/{{goti.color}}.png" class="goti"
+                [style.top]="goti.top" [style.left]="goti.left" width="{{pixel}}px" height="{{pixel}}px"
+                [ngClass]="{'chance': canMove(goti)}">
+                <img src="assets/{{goti.color}}.png"/>
+                <span class="pointer"></span>
+            </span>
         </div>
 
 
@@ -89,7 +106,8 @@
                     <div class="column" id="t6"></div>
                 </div>
             </div>
-            <div id="EndSteps" class="finalStage_main ">
+            <div (click)="rollTheDice()" id="EndSteps" class="finalStage_main">
+                {{diceNumber}}
             </div>
             <div class="ludomids ludo_d_mid_box_right players_path ">
                 <div class="ludo_d_mid_box_clmn_m column_main">
@@ -157,10 +175,48 @@
                 </div>
             </div>
         </div>
+
+
+        <ol id="die" (click)="rollTheDice()" class="die-list even-roll" data-roll="1">
+                <li class="die-item {{chance}}" data-side="1">
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item {{chance}}" data-side="2">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item {{chance}}" data-side="3">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item {{chance}}" data-side="4">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item {{chance}}" data-side="5">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item {{chance}}" data-side="6">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                </ol>
+
     </div>
 </div>
-<div *ngFor="let goti of blue.army" style="width:300px">
-    <input [(ngModel)]="goti.top" /> {{goti.top}}
-    <input [(ngModel)]="goti.left" />{{goti.left}}
-</div>
+
+<a (click)="rollTheDice()">DICE</a>{{diceNumber}}
+<a (click)="nextChance()">nextChance</a>{{chance}}
+<input [(ngModel)]="diceNumber" />
 ==>{{pixel}}<== <pre>{{blue.army | json}}</pre>
