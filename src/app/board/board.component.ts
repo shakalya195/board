@@ -64,7 +64,7 @@ export class BoardComponent implements OnInit {
 
   chanceOrder=['blue','red','green','yellow'];
   chance='blue';
-
+  moving=false;
   constructor(
     public game:GameService
   ){ 
@@ -73,8 +73,13 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     window.addEventListener("resize", this.renderBoard);
+    window.addEventListener("resize", this.rendarGotis);
     this.renderBoard();
+    this.rendarGotis();
+  }
 
+  rendarGotis(){
+    console.log('rendarGotis');
     ['blue','red','green','yellow'].forEach(item=>{
       this[item].name = 'Player';
       this[item].color = item;
@@ -166,24 +171,44 @@ export class BoardComponent implements OnInit {
     document.getElementById('die').style.height = pixel*3+"px";
     document.getElementById('die').style.top = pixel*6+"px";
     document.getElementById('die').style.left = pixel*6+"px";
+
+    setTimeout(()=>{
+      var gotis = document.getElementsByClassName('goti') as HTMLCollectionOf<HTMLElement>;
+      for(var i=0, len=gotis.length; i<len; i++)
+      {
+        gotis[i].style["width"] = pixel+"px";
+        gotis[i].style["height"] = pixel+"px";
+      }
+    },1000)
   }
 
   move(goti){
+    this.moving = true;
     if(!this.canMove(goti)){
       console.log('NOT YOUR CHANCE');
       return false;
+    }
+    if(goti.step == 0 && this.diceNumber == 6){
+      this.moveOne(goti,1);
+      this.diceNumber = 0;
+      this.moving = false;
+      return;
     }
     let t = 0;
     for(let i=0;i<this.diceNumber;i++){
       setTimeout(()=>{
         this.moveOne(goti,1);
+        if(i==this.diceNumber-1){// if last step
+          if(this.diceNumber < 6){
+            this.nextChance();
+          }
+          this.diceNumber = 0;
+          this.moving = false;
+        }
       },t);
       t=t+500;
     }
-    if(this.diceNumber < 6){
-      this.nextChance();
-    }
-    this.diceNumber = 0;
+
   }
 
   moveOne(goti,step=1){
@@ -230,7 +255,7 @@ export class BoardComponent implements OnInit {
     if(nextIndex == 4){
       nextIndex=0;
     }
-    console.log(this.chance,index,nextIndex)
+    console.log(this.chance,index,nextIndex,this.chanceOrder[nextIndex])
     this.chance = this.chanceOrder[nextIndex];
     // console.log(index);
   }
@@ -240,10 +265,25 @@ export class BoardComponent implements OnInit {
   }
 
   rollTheDice(){
+    if(this.diceNumber > 0){
+      return false;
+    }
     let die = document.getElementById('die')
     this.toggleClasses(die);
     this.diceNumber = this.randomNumber();
     die.dataset.roll = this.diceNumber;
+    console.log('rollTheDice',this.chance,this[this.chance]);
+
+
+    if(!this.canMove(this[this.chance].army[0]) 
+      && !this.canMove(this[this.chance].army[1])
+      && !this.canMove(this[this.chance].army[2])
+      && !this.canMove(this[this.chance].army[3])
+      ){
+        this.diceNumber = 0;
+        this.nextChance();
+    }
+   
   }
 
   toggleClasses(die){
@@ -252,7 +292,11 @@ export class BoardComponent implements OnInit {
   }
 
   canMove(goti){
-    return this.diceNumber > 0 && goti.color == this.chance;
+    // console.log('canmove',goti);
+    if(goti.step==0 && this.diceNumber < 6){
+      return false;
+    }
+    return this.diceNumber > 0 && goti.color == this.chance ;
   }
 
 }

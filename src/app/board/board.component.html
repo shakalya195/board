@@ -38,7 +38,7 @@
         <!-- ludo Top-->
         <div class="ludo_d_top">
             <div class="ludo_d_top_box player_board plyr_top_1" data-board-id="1">
-                <div class="player_board_white">
+                <div class="player_board_white" [ngClass]="{'flash':chance=='red'}">
                     <span id="red0" class="bgcircle"></span>
                     <span id="red1" class="bgcircle"></span>
                     <span id="red2" class="bgcircle"></span>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="ludo_d_top_box player_board plyr_top_2" data-board-id="2">
-                <div class="player_board_white">
+                <div class="player_board_white" [ngClass]="{'flash':chance=='green'}">
                     <span id="green1" class="bgcircle"></span>
                     <span id="green2" class="bgcircle"></span>
                     <span id="green3" class="bgcircle"></span>
@@ -82,8 +82,6 @@
 
             <div class="ludomids ludo_d_mid_box_left players_path ">
                 <div class="ludo_d_mid_box_clmn_m column_main">
-
-
                     <div class="column" id="t13"></div>
                     <div class="column safe" id="t14"></div>
                     <div class="column" id="t15"></div>
@@ -137,7 +135,7 @@
         <!-- ludo Bottom-->
         <div class="ludo_d_bottom">
             <div class="ludo_d_bottom_box player_board plyr_top_3" data-board-id="3">
-                <div class="player_board_white">
+                <div class="player_board_white" [ngClass]="{'flash':chance=='blue'}">
                     <span id="blue0" class="bgcircle"></span>
                     <span id="blue1" class="bgcircle"></span>
                     <span id="blue2" class="bgcircle"></span>
@@ -167,7 +165,7 @@
                 </div>
             </div>
             <div class="ludo_d_bottom_box player_board plyr_top_4" data-board-id="4">
-                <div class="player_board_white">
+                <div class="player_board_white" [ngClass]="{'flash':chance=='yellow'}">
                     <span id="yellow0" class="bgcircle"></span>
                     <span id="yellow1" class="bgcircle"></span>
                     <span id="yellow2" class="bgcircle"></span>
@@ -178,32 +176,32 @@
 
 
         <ol id="die" (click)="rollTheDice()" class="die-list even-roll" data-roll="1">
-                <li class="die-item {{chance}}" data-side="1">
+                <li class="die-item " data-side="1">
                     <span class="dot"></span>
                 </li>
-                <li class="die-item {{chance}}" data-side="2">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="3">
-                    <span class="dot"></span>
+                <li class="die-item " data-side="2">
                     <span class="dot"></span>
                     <span class="dot"></span>
                 </li>
-                <li class="die-item {{chance}}" data-side="4">
-                    <span class="dot"></span>
+                <li class="die-item " data-side="3">
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
                 </li>
-                <li class="die-item {{chance}}" data-side="5">
-                    <span class="dot"></span>
+                <li class="die-item " data-side="4">
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
                 </li>
-                <li class="die-item {{chance}}" data-side="6">
+                <li class="die-item " data-side="5">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </li>
+                <li class="die-item " data-side="6">
                     <span class="dot"></span>
                     <span class="dot"></span>
                     <span class="dot"></span>
