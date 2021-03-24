@@ -234,7 +234,10 @@ export class BoardComponent implements OnInit {
       }
     }
 
-    if(this.diceNumber == 6 || killChance == true){
+    if(this.diceNumber == 6 // if you got a 6
+      || killChance == true // if you killed other goti
+      || goti.step==57 // if you reach finish
+      ){
       // Chance will be same.
     }else{
       // Chance is gone. Switching to next player in loop
@@ -278,7 +281,10 @@ export class BoardComponent implements OnInit {
     var pixelID = position;
     goti.pixel = pixelID;
 
-    // console.log(goti,this.diceNumber,'pixelID',pixelID)
+    // console.log(goti,this.diceNumber,'pixelID',pixelID);
+    if(goti.step == 57){
+      position = 'finish';
+    }
     this.jumpToPixel(goti,pixelID);
   }
 
@@ -327,6 +333,9 @@ export class BoardComponent implements OnInit {
   canMove(goti){
     // console.log('canmove',goti);
     if(goti.step==0 && this.diceNumber < 6){
+      return false;
+    }
+    if( (57- goti.step) < this.diceNumber){
       return false;
     }
     return this.diceNumber > 0 && goti.color == this.chance ;

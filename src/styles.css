@@ -249,7 +249,18 @@ background-size: 53%;
 .ludomids {
     flex: 0 0 40%;
 }
-
+#EndSteps{
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-image: url('assets/finish2.gif');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+#EndSteps .column{
+  background: transparent;
+}
 #EndSteps.ludomids {
     flex: 0 0 20%;
 }
@@ -383,22 +394,22 @@ to {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     height: 100%;
-    padding: 1rem;
+    padding: 0.5rem;
     width: 100%;
     border-radius:10px;
   }
   .die-item.red{
-      background-color: red;
+      background-color: #e01d23;
   }
   .die-item.blue{
-      background-color: blue
+      background-color: #24b2fe;
   }
   .die-item.green{
-    background-color: green
-}
-.die-item.yellow{
-    background-color: yellow
-}
+    background-color: #04a04c;
+  }
+  .die-item.yellow{
+      background-color: #f6dc13;
+  }
 
 .displayNone{
   display:none;
