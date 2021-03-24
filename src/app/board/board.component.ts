@@ -64,6 +64,7 @@ export class BoardComponent implements OnInit {
 
   chanceOrder=['blue','red','green','yellow'];
   chance='blue';
+  safeZone = ['t1','t9','t14','t22','t27','t35','t40','t48'];
   moving=false;
   constructor(
     public game:GameService
@@ -83,7 +84,12 @@ export class BoardComponent implements OnInit {
     ['blue','red','green','yellow'].forEach(item=>{
       this[item].name = 'Player';
       this[item].color = item;
-      this[item].army = [{step:0,color:item},{step:0,color:item},{step:0,color:item},{step:0,color:item}]
+      this[item].army = [
+        {step:0,color:item,start:item+'0'},
+        {step:0,color:item,start:item+'1'},
+        {step:0,color:item,start:item+'2'},
+        {step:0,color:item,start:item+'3'}
+      ];
       if(localStorage.getItem(item)){
         this[item] = JSON.parse(localStorage.getItem(item));
       }
@@ -199,16 +205,43 @@ export class BoardComponent implements OnInit {
       setTimeout(()=>{
         this.moveOne(goti,1);
         if(i==this.diceNumber-1){// if last step
-          if(this.diceNumber < 6){
-            this.nextChance();
-          }
-          this.diceNumber = 0;
-          this.moving = false;
+          this.lastStepOfMove(goti)
         }
       },t);
       t=t+500;
     }
+  }
 
+  lastStepOfMove(goti){
+    console.log('lastStepOfMove',goti);
+
+    let killChance = false;
+    if(this.safeZone.includes(goti.pixel)){
+      // SafeZone
+    }else{
+      // War Zone
+      var otherPlayers = this.chanceOrder.filter(color=> color!= this.chance);
+      var allOtherGotis = [...this[otherPlayers[0]]['army'],...this[otherPlayers[1]]['army'],...this[otherPlayers[2]]['army']]
+      console.log('allOtherGotis',allOtherGotis);
+      var gotiOnWarZone = allOtherGotis.find(item=>{
+        return item.pixel == goti.pixel
+      });
+      if(gotiOnWarZone){
+        console.log('gotiOnWarZone',gotiOnWarZone);
+        gotiOnWarZone.step = 0;
+        this.jumpToPixel(gotiOnWarZone,gotiOnWarZone.start);
+        killChance = true;
+      }
+    }
+
+    if(this.diceNumber == 6 || killChance == true){
+      // Chance will be same.
+    }else{
+      // Chance is gone. Switching to next player in loop
+      this.nextChance();
+    }
+    this.diceNumber = 0;
+    this.moving = false;
   }
 
   moveOne(goti,step=1){
