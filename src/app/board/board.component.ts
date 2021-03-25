@@ -1,51 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
-
-export class player {
-  _id:String;
-  name:String='Player';
-  color:String;
-  startPosition:any;
-  army:any[]=[];
-
-
-  constructor(color='blue'){
-    this.color = color;
-    if(this.color == 'blue'){
-      this.army = [
-        {p:'b1',step:0,icon:'assets/b.png'},
-        {p:'b2',step:0,icon:'assets/b.png'},
-        {p:'b3',step:0,icon:'assets/b.png'},
-        {p:'b4',step:0,icon:'assets/b.png'}
-      ];
-    }
-    if(this.color == 'red'){
-      this.army = [
-        {p:'r1',step:0,icon:'assets/r.png'},
-        {p:'r2',step:0,icon:'assets/r.png'},
-        {p:'r3',step:0,icon:'assets/r.png'},
-        {p:'r4',step:0,icon:'assets/r.png'}
-      ]
-    }
-    if(this.color == 'green'){
-      this.army = [
-        {p:'g1',step:0,icon:'assets/g.png'},
-        {p:'g2',step:0,icon:'assets/g.png'},
-        {p:'g3',step:0,icon:'assets/g.png'},
-        {p:'g4',step:0,icon:'assets/g.png'}
-      ];
-    }
-    if(this.color == 'yellow'){
-      this.army = [
-        {p:'y1',step:0,icon:'assets/y.png'},
-        {p:'y2',step:0,icon:'assets/y.png'},
-        {p:'y3',step:0,icon:'assets/y.png'},
-        {p:'y4',step:0,icon:'assets/y.png'}
-      ];
-    }
-  }
-
-}
+declare let createFirework:any;
 
 @Component({
   selector: 'app-board',
@@ -61,11 +16,15 @@ export class BoardComponent implements OnInit {
 
   pixel:any;
   diceNumber:any = 0;
+  winnerPlace = 1;
 
   chanceOrder=['blue','red','green','yellow'];
   chance='blue';
   safeZone = ['t1','t9','t14','t22','t27','t35','t40','t48'];
-  moving=false;
+  moving:boolean=false;
+  toggle:boolean=false;
+  celebrate:boolean = false;
+
   constructor(
     public game:GameService
   ){ 
@@ -77,6 +36,17 @@ export class BoardComponent implements OnInit {
     window.addEventListener("resize", this.rendarGotis);
     this.renderBoard();
     this.rendarGotis();
+    if(localStorage.getItem('chance')){
+      this.chance = localStorage.getItem('chance');
+    }
+
+    // var hsla = 0;
+    // var bg = document.getElementById('EndSteps');
+    // setInterval(()=>{
+    //   hsla = hsla+1;
+    //   bg.style.backgroundColor = `hsla(${hsla},90%, 20%, 1)`;
+    // },10);
+
   }
 
   rendarGotis(){
@@ -214,7 +184,6 @@ export class BoardComponent implements OnInit {
 
   lastStepOfMove(goti){
     console.log('lastStepOfMove',goti);
-
     let killChance = false;
     if(this.safeZone.includes(goti.pixel)){
       // SafeZone
@@ -243,15 +212,29 @@ export class BoardComponent implements OnInit {
       // Chance is gone. Switching to next player in loop
       this.nextChance();
     }
+
+    if(goti.step==57){ 
+      // if Goti goes to WIN
+      if(this[this.chance]['army'].filter(item=>item.step==57).length == 4){
+        // if all goti WINNER
+        this.displayFireworks();
+        setTimeout(()=>{
+          this.stopFireworks();
+          this[this.chance]['winner'] = this.winnerPlace;
+          this.winnerPlace++;
+          this.nextChance();
+        },5000);
+
+      }
+    }
+
     this.diceNumber = 0;
     this.moving = false;
   }
 
   moveOne(goti,step=1){
-    // console.log(goti);
+
     goti.step = parseInt(goti.step)+ step;
-    // console.log(goti);
-    // var field = goti.step < 52? 't':goti.color;
 
     if(goti.color == 'blue'){
       var position = goti.step < 52 ? 't'+goti.step : goti.color+goti.step;
@@ -277,14 +260,14 @@ export class BoardComponent implements OnInit {
       }
       var position = goti.step < 52 ? 't'+pointer : goti.color+goti.step;
     }
-     // 't52' to blue53
+    // 't52' to blue53
+    if(goti.step == 57){
+      position = 'finish';
+    }
     var pixelID = position;
     goti.pixel = pixelID;
 
     // console.log(goti,this.diceNumber,'pixelID',pixelID);
-    if(goti.step == 57){
-      position = 'finish';
-    }
     this.jumpToPixel(goti,pixelID);
   }
 
@@ -296,14 +279,28 @@ export class BoardComponent implements OnInit {
     }
     console.log(this.chance,index,nextIndex,this.chanceOrder[nextIndex])
     this.chance = this.chanceOrder[nextIndex];
+    localStorage.setItem('chance',this.chance);
     // console.log(index);
+    if(this[this.chance]['winner'] > 0){
+      this.nextChance();
+    }
   }
   
   randomNumber(items=[1,2,3,4,5,6]){
     return items[Math.floor(Math.random()*items.length)]
   }
 
+  waitRollTheDice = false;
   rollTheDice(){
+    if(this.waitRollTheDice){
+      console.log('WAIT');
+      return false;
+    }
+    this.waitRollTheDice = true;
+    setTimeout(()=>{
+      this.waitRollTheDice = false;
+    },2500);
+
     if(this.diceNumber > 0){
       return false;
     }
@@ -320,7 +317,9 @@ export class BoardComponent implements OnInit {
       && !this.canMove(this[this.chance].army[3])
       ){
         this.diceNumber = 0;
-        this.nextChance();
+        setTimeout(()=>{
+          this.nextChance();
+        },3000) 
     }
    
   }
@@ -341,4 +340,28 @@ export class BoardComponent implements OnInit {
     return this.diceNumber > 0 && goti.color == this.chance ;
   }
 
+
+  startNewGame(){
+    this.toggle = !this.toggle;
+    localStorage.clear();
+    this.renderBoard();
+    this.rendarGotis();
+  }
+
+  firework(){
+    createFirework(25,187,7,1,null,null,null,null,false,true);
+  }
+
+  timer:any;
+  displayFireworks() {
+    createFirework(25,187,7,1,null,null,null,null,false,true);
+    this.timer = setTimeout(()=>{
+      this.displayFireworks()
+    },200);
+  }
+
+  stopFireworks() {
+    clearTimeout(this.timer);
+  }
+  
 }

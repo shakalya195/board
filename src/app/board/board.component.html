@@ -105,15 +105,15 @@
                 </div>
             </div>
             <div id="EndSteps" class="finalStage_main">
-                <div class="column" id="f"></div>
+                <div class="column" id="f1"></div>
                 <div class="column" id="green"></div>
-                <div class="column" id="f"></div>
+                <div class="column" id="f2"></div>
                 <div class="column" id="red"></div>
                 <div class="column" id="finish"></div>
                 <div class="column" id="yellow"></div>
-                <div class="column" id="f"></div>
+                <div class="column" id="f3"></div>
                 <div class="column" id="blue"></div>
-                <div class="column" id="f"></div>
+                <div class="column" id="f4"></div>
             </div>
             <div class="ludomids ludo_d_mid_box_right players_path ">
                 <div class="ludo_d_mid_box_clmn_m column_main">
@@ -181,48 +181,60 @@
                 </div>
             </div>
         </div>
-
-
-        <ol id="die" (click)="rollTheDice()" class="die-list even-roll" data-roll="1">
-                <li class="die-item {{chance}}" data-side="1">
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="2">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="3">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="4">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="5">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                <li class="die-item {{chance}}" data-side="6">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </li>
-                </ol>
-
+    </div>
+</div>
+<br/><br/>
+<ol id="die" (click)="rollTheDice()" class="die-list even-roll" data-roll="1">
+    <li class="die-item {{chance}}" data-side="1">
+        <span class="dot"></span>
+    </li>
+    <li class="die-item {{chance}}" data-side="2">
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </li>
+    <li class="die-item {{chance}}" data-side="3">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </li>
+    <li class="die-item {{chance}}" data-side="4">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </li>
+    <li class="die-item {{chance}}" data-side="5">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </li>
+    <li class="die-item {{chance}}" data-side="6">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </li>
+    </ol>
+<br/><br/><br/><br/>
+<div style="padding:10px;max-width:500px;margin:0px auto;">
+    <div style="text-align: center;">
+        <img (click)="toggle = !toggle" [ngClass]="{'inverted':toggle}" class="moreOptions" src="assets/more.png" width="50" height="50" />
+    </div>
+    <div *ngIf="toggle" style="text-align:center;padding:8px;">
+        <button (click)="startNewGame()" style="padding: 8px;width:100%">New Game</button>
+        <button (click)="displayFireworks()" style="padding: 8px;width:100%">Celebrate</button>
+        <button (click)="stopFireworks()" style="padding: 8px;width:100%">Stop</button>
     </div>
 </div>
 
-<a (click)="rollTheDice()">DICE</a>{{diceNumber}}
-<a (click)="nextChance()">nextChance</a>{{chance}}
-<input [(ngModel)]="diceNumber" />
-==>{{pixel}}<== <pre>{{blue.army | json}}</pre>
+<div id="fireworks-template">
+    <div id="fw" class="firework"></div>
+    <div id="fp" class="fireworkParticle"><img src="assets/particles.gif" alt="" /></div>
+  </div>
+<div id="fireContainer"></div>
+
+<!-- <input [(ngModel)]="diceNumber" /> -->
